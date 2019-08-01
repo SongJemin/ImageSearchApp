@@ -22,7 +22,7 @@ class ImageSearchAdapter(context: Context, private var imgDataArr: ArrayList<Ima
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageSearchViewHolder {
         val mainView1 : View = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_image_view, parent, false)
-        mainView1.setOnClickListener(onItemClick)
+//        mainView1.setOnClickListener(onItemClick)
         return ImageSearchViewHolder(mainView1)
     }
 
