@@ -5,38 +5,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".UI.Main.MainActivity">
 
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/main_tool_bar_tb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
+    <RelativeLayout
         android:id="@+id/main_serach_bar_ll"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
+        android:layout_below="@+id/main_tool_bar_tb"
     >
         <EditText
             android:id="@+id/main_search_bar_edit"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="8"
             android:paddingLeft="10dp"
+            android:paddingRight="30dp"
             android:hint="이미지 키워드를 입력해주세요."
-        />
+            android:background="@color/transparent"
+            />
+
         <Button
             android:id="@+id/main_search_btn"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:text="확인"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/search_icon"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
         />
 
-    </LinearLayout>
+    </RelativeLayout>
+    <View
+        android:id="@+id/main_edit_bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="#000000"
+        android:layout_below="@+id/main_serach_bar_ll"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/main_image_list_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginVertical="10dp"
-        android:layout_below="@+id/main_serach_bar_ll"
+        android:layout_below="@+id/main_edit_bottom_view"
     >
 
     </android.support.v7.widget.RecyclerView>

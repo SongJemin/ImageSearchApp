@@ -1,8 +1,10 @@
 package com.jem.imagesearchapp.UI.Main
 
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Glide.with
@@ -20,6 +22,12 @@ import retrofit2.Response
 import java.util.*
 import kotlin.collections.ArrayList
 
+
+
+
+
+
+
 class MainActivity : AppCompatActivity() {
 
     val KAKAO_REST_API_KEY = "KakaoAK a8ef77758e604843a6cf06a0162a2544";
@@ -31,9 +39,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(com.jem.imagesearchapp.R.layout.activity_main)
         requestManager = Glide.with(this)
         imgDataArr = ArrayList<ImageData>()
+
+        main_tool_bar_tb.setTitle(com.jem.imagesearchapp.R.string.tb_name)
+        main_tool_bar_tb.setTitleTextColor(Color.WHITE)
+        setSupportActionBar(main_tool_bar_tb)
 
          main_search_btn.setOnClickListener {
              imgDataArr.clear()
@@ -51,8 +63,10 @@ class MainActivity : AppCompatActivity() {
                 if(response!!.isSuccessful) {
                     imgDataArr = response.body()!!.documents
                     System.out.println("배열 = " + imgDataArr)
+                    main_image_list_recycler.layoutManager = GridLayoutManager(applicationContext, 3)
                     main_image_list_recycler.adapter = ImageSearchAdapter(applicationContext, imgDataArr, requestManager)
-                    main_image_list_recycler.layoutManager = GridLayoutManager(applicationContext, 4);
+
+                    main_image_list_recycler.setItemAnimator(null);
                 }
                 else{
                 }
