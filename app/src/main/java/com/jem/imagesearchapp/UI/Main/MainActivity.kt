@@ -1,5 +1,6 @@
 package com.jem.imagesearchapp.UI.Main
 
+import android.accessibilityservice.AccessibilityService
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
@@ -10,6 +11,7 @@ import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -30,6 +32,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import kotlin.collections.ArrayList
+import android.view.KeyEvent.KEYCODE_BACK
+
+
 
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -61,6 +66,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var searchData : ArrayList<String>
     lateinit var searchDataHistoryAdapter : SearchDataHistoryAdapter
 
+    lateinit var softKeyBoard : AccessibilityService.SoftKeyboardController
+    var imm : InputMethodManager? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.jem.imagesearchapp.R.layout.activity_main)
@@ -70,6 +78,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         main_tool_bar_tb.setTitle(com.jem.imagesearchapp.R.string.tb_name)
         main_tool_bar_tb.setTitleTextColor(Color.WHITE)
         setSupportActionBar(main_tool_bar_tb)
+
+        imm = applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
          main_search_btn.setOnClickListener {
 
@@ -81,8 +91,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                  imgDataArr.clear()
                  imageSearch();
                  insertKeyword(keyword, searchDbHelper)
+
              }
          }
+
+        main_content_rl.setOnClickListener {
+            main_image_list_recycler.visibility = View.VISIBLE
+            main_search_history_recycler.visibility = View.GONE
+            main_search_bar_edit.clearFocus()
+            imm!!.hideSoftInputFromWindow(main_search_bar_edit.windowToken, 0)
+        }
 
         main_search_bar_edit.setOnEditorActionListener({ textView, actionId, keyEvent ->
 
@@ -98,6 +116,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     imgDataArr.clear()
                     imageSearch();
                     insertKeyword(keyword, searchDbHelper)
+                    imm!!.hideSoftInputFromWindow(main_search_bar_edit.windowToken, 0)
                 }
             }
             handled
@@ -136,8 +155,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     main_image_list_recycler.addItemDecoration(RecyclerviewItemDeco(applicationContext));
                     main_image_list_recycler.setItemAnimator(null);
 
-                    val imm = applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(main_search_bar_edit.windowToken, 0)
+
+                    imm!!.hideSoftInputFromWindow(main_search_bar_edit.windowToken, 0)
 
                     main_search_bar_edit.clearFocus()
 
@@ -151,6 +170,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
         })
     }
+
+    fun onKeyPreIme(keyCode: Int, event: KeyEvent): Boolean {
+        return if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() === KeyEvent.ACTION_UP) {
+            // Do your thing here
+            false
+        } else super.dispatchKeyEvent(event)
+    }
+
 
     fun insertSearchHistoryData(searchDB: SQLiteDatabase) {
 
@@ -170,6 +197,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         searchDataHistoryAdapter = SearchDataHistoryAdapter(applicationContext, this,searchData)
         searchDataHistoryAdapter.notifyDataSetChanged()
+        main_search_history_recycler.adapter = searchDataHistoryAdapter
         main_search_history_recycler.adapter = searchDataHistoryAdapter
         main_search_history_recycler.layoutManager = LinearLayoutManager(applicationContext)
         main_search_history_recycler.isNestedScrollingEnabled = false
