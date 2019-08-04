@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var imgDataArr : ArrayList<ImageData>
     lateinit var requestManager : RequestManager
     lateinit var imageSearchAdapter : ImageSearchAdapter
+    var recyclerviewItemDeco: RecyclerviewItemDeco? = null
 
     lateinit var searchDbHelper: DBSearchHelper
     lateinit var searchDB: SQLiteDatabase
@@ -169,7 +170,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     imageSearchAdapter = ImageSearchAdapter(applicationContext, imgDataArr, requestManager)
                     imageSearchAdapter.setOnItemClickListener(this@MainActivity)
                     main_image_list_recycler.adapter = imageSearchAdapter
-                    main_image_list_recycler.addItemDecoration(RecyclerviewItemDeco(applicationContext));
+                    if(recyclerviewItemDeco != null){
+                        main_image_list_recycler.removeItemDecoration(recyclerviewItemDeco!!)
+                    }
+                    recyclerviewItemDeco = RecyclerviewItemDeco(applicationContext)
+                    main_image_list_recycler.addItemDecoration(recyclerviewItemDeco!!);
                     main_image_list_recycler.setItemAnimator(null);
 
 
