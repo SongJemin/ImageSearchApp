@@ -15,17 +15,13 @@ import com.jem.imagesearchapp.R
 import com.jem.imagesearchapp.UI.Main.Adapter.ImageSearchAdapter
 import com.jem.imagesearchapp.Util.Network.ApiClient
 import com.jem.imagesearchapp.Util.Network.NetworkService
+import com.jem.imagesearchapp.Util.RecyclerviewItemDeco
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 import kotlin.collections.ArrayList
-
-
-
-
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -65,6 +61,8 @@ class MainActivity : AppCompatActivity() {
                     System.out.println("배열 = " + imgDataArr)
                     main_image_list_recycler.layoutManager = GridLayoutManager(applicationContext, 3)
                     main_image_list_recycler.adapter = ImageSearchAdapter(applicationContext, imgDataArr, requestManager)
+
+                    main_image_list_recycler.addItemDecoration(RecyclerviewItemDeco(applicationContext));
 
                     main_image_list_recycler.setItemAnimator(null);
                 }
