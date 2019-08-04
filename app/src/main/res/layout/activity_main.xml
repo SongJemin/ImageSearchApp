@@ -80,6 +80,36 @@
 
         </android.support.v7.widget.RecyclerView>
 
+        <RelativeLayout
+                android:id="@+id/main_no_data_rl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="검색 결과가 없습니다!!"
+                    android:textSize="15sp"
+                    android:textColor="#484848"
+                    android:textStyle="bold"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="217.3dp"
+                    />
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="상단의 검색바를 이용해서 키워드로 이미지를 검색해주세요!"
+                    android:textSize="13sp"
+                    android:textColor="#a2a2a2"
+                    android:textStyle="bold"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="244.3dp"
+                    android:gravity="center"
+                    />
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>

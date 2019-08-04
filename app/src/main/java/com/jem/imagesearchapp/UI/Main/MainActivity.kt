@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -153,7 +154,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
         // 이미지 리스트 창일 경우
         else{
-            super.onBackPressed()
+            AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setMessage("이미지 검색을 그만할까요?")
+                .setPositiveButton("예") { dialog, which ->
+                    moveTaskToBack(true)
+                    finish()
+                    android.os.Process.killProcess(android.os.Process.myPid())
+                }
+                .setNegativeButton("아니요", null)
+                .show()
         }
     }
 
@@ -166,23 +176,32 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             override fun onResponse(call: Call<GetImageSearchResponse>?, response: Response<GetImageSearchResponse>?) {
                 if(response!!.isSuccessful) {
                     imgDataArr = response.body()!!.documents
-                    main_image_list_recycler.layoutManager = GridLayoutManager(applicationContext, 3)
-                    imageSearchAdapter = ImageSearchAdapter(applicationContext, imgDataArr, requestManager)
-                    imageSearchAdapter.setOnItemClickListener(this@MainActivity)
-                    main_image_list_recycler.adapter = imageSearchAdapter
-                    if(recyclerviewItemDeco != null){
-                        main_image_list_recycler.removeItemDecoration(recyclerviewItemDeco!!)
+
+                    if(imgDataArr.size > 0){
+                        main_no_data_rl.visibility = View.GONE
+                        main_image_list_recycler.layoutManager = GridLayoutManager(applicationContext, 3)
+                        imageSearchAdapter = ImageSearchAdapter(applicationContext, imgDataArr, requestManager)
+                        imageSearchAdapter.setOnItemClickListener(this@MainActivity)
+                        main_image_list_recycler.adapter = imageSearchAdapter
+                        if(recyclerviewItemDeco != null){
+                            main_image_list_recycler.removeItemDecoration(recyclerviewItemDeco!!)
+                        }
+                        recyclerviewItemDeco = RecyclerviewItemDeco(applicationContext)
+                        main_image_list_recycler.addItemDecoration(recyclerviewItemDeco!!);
+                        main_image_list_recycler.setItemAnimator(null);
+
+
+                        imm!!.hideSoftInputFromWindow(main_search_bar_edit.windowToken, 0)
+
+                        main_search_bar_edit.clearFocus()
+
+                        main_no_data_rl.visibility = View.GONE
+                        main_image_list_recycler.visibility = View.VISIBLE
+
+                    }else{
+                        main_no_data_rl.visibility = View.VISIBLE
+                        main_image_list_recycler.visibility = View.GONE
                     }
-                    recyclerviewItemDeco = RecyclerviewItemDeco(applicationContext)
-                    main_image_list_recycler.addItemDecoration(recyclerviewItemDeco!!);
-                    main_image_list_recycler.setItemAnimator(null);
-
-
-                    imm!!.hideSoftInputFromWindow(main_search_bar_edit.windowToken, 0)
-
-                    main_search_bar_edit.clearFocus()
-
-                    main_image_list_recycler.visibility = View.VISIBLE
                     main_search_history_recycler.visibility = View.GONE
                     searchFocusFlag = false
                 }
