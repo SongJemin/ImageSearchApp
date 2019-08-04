@@ -9,7 +9,7 @@ import com.bumptech.glide.RequestManager
 import com.jem.imagesearchapp.Data.Model.ImageData
 import com.jem.imagesearchapp.R
 
-class ImageSearchAdapter(context: Context, private var imgDataArr: ArrayList<ImageData>, var requestManager: RequestManager) : RecyclerView.Adapter<ImageSearchViewHolder>() {
+class ImageSearchAdapter(ctx: Context, private var imgDataArr: ArrayList<ImageData>, var requestManager: RequestManager) : RecyclerView.Adapter<ImageSearchViewHolder>() {
 
     private lateinit var onItemClick : View.OnClickListener
 
@@ -17,7 +17,6 @@ class ImageSearchAdapter(context: Context, private var imgDataArr: ArrayList<Ima
         onItemClick = l
     }
 
-    //내가 쓸 뷰홀더가 뭔지를 적어준다.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageSearchViewHolder {
         val mainView : View = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_image_view, parent, false)

@@ -38,13 +38,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     // 이미지 클릭시
     override fun onClick(v: View?) {
-        val idx : Int = main_image_list_recycler.getChildAdapterPosition(v!!)
-        var intent = Intent(this, ImageDetailActivity::class.java)
-        intent.putExtra("img_url", imgDataArr.get(idx).image_url)
-        intent.putExtra("display_sitename", imgDataArr.get(idx).display_sitename)
-        intent.putExtra("doc_url", imgDataArr.get(idx).doc_url)
-        intent.putExtra("datetime", imgDataArr.get(idx).datetime.substring(0, 10))
-        startActivityForResult(intent, 30)
+        if(searchFocusFlag){
+            val idx : Int = main_search_history_recycler.getChildAdapterPosition(v!!)
+            imageSearch(searchData.get(idx))
+        }
+        else{
+            val idx : Int = main_image_list_recycler.getChildAdapterPosition(v!!)
+            var intent = Intent(this, ImageDetailActivity::class.java)
+            intent.putExtra("img_url", imgDataArr.get(idx).image_url)
+            intent.putExtra("display_sitename", imgDataArr.get(idx).display_sitename)
+            intent.putExtra("doc_url", imgDataArr.get(idx).doc_url)
+            intent.putExtra("datetime", imgDataArr.get(idx).datetime.substring(0, 10))
+            startActivityForResult(intent, 30)
+        }
     }
 
     val TAG = "MainActivity"
@@ -86,9 +92,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                  Toast.makeText(applicationContext, "적어도 한 글자 이상을 입력 해 주세요", Toast.LENGTH_LONG).show()
              else {
                  imgDataArr.clear()
-                 imageSearch();
+                 imageSearch(main_search_bar_edit.text.toString());
                  insertKeyword(keyword, searchDbHelper)
-
              }
          }
 
@@ -96,6 +101,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             main_image_list_recycler.visibility = View.VISIBLE
             main_search_history_recycler.visibility = View.GONE
             main_search_bar_edit.clearFocus()
+            searchFocusFlag = false
             imm!!.hideSoftInputFromWindow(main_search_bar_edit.windowToken, 0)
         }
 
@@ -111,7 +117,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     Toast.makeText(applicationContext, "적어도 한 글자 이상을 입력 해 주세요", Toast.LENGTH_LONG).show()
                 else {
                     imgDataArr.clear()
-                    imageSearch();
+                    imageSearch(main_search_bar_edit.text.toString());
                     insertKeyword(keyword, searchDbHelper)
                     imm!!.hideSoftInputFromWindow(main_search_bar_edit.windowToken, 0)
                 }
@@ -151,9 +157,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     // 이미지 검색 메서드
-    fun imageSearch(){
+    fun imageSearch(inputString : String){
         // 이미지 검색 API
-        var getImageSearchResponse = networkService.getImageSearch(KAKAO_REST_API_KEY, main_search_bar_edit.text.toString())
+        var getImageSearchResponse = networkService.getImageSearch(KAKAO_REST_API_KEY, inputString)
         getImageSearchResponse.enqueue(object : Callback<GetImageSearchResponse> {
 
             override fun onResponse(call: Call<GetImageSearchResponse>?, response: Response<GetImageSearchResponse>?) {
@@ -173,6 +179,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
                     main_image_list_recycler.visibility = View.VISIBLE
                     main_search_history_recycler.visibility = View.GONE
+                    searchFocusFlag = false
                 }
                 else{
                 }
@@ -200,7 +207,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         searchDataHistoryAdapter = SearchDataHistoryAdapter(applicationContext, this,searchData)
         searchDataHistoryAdapter.notifyDataSetChanged()
-        main_search_history_recycler.adapter = searchDataHistoryAdapter
+        searchDataHistoryAdapter.setOnItemClickListener(this);
         main_search_history_recycler.adapter = searchDataHistoryAdapter
         main_search_history_recycler.layoutManager = LinearLayoutManager(applicationContext)
         main_search_history_recycler.isNestedScrollingEnabled = false
@@ -211,7 +218,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun insertKeyword(keyword: String, searchDbHelper: DBSearchHelper) {
-
         //이미 존재 할 경우, 이전데이터 지우고 insert
         if (searchDbHelper.search(keyword)) {
             searchDbHelper.delete(keyword)

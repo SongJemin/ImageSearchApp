@@ -11,11 +11,17 @@ import com.jem.imagesearchapp.Util.DB.DBSearchHelper
 
 class SearchDataHistoryAdapter (ctx: Context, val mainActivity: MainActivity, private var searchData : ArrayList<String>) : RecyclerView.Adapter<SearchDataHistoryViewHolder>(){
 
+    private lateinit var onItemClick : View.OnClickListener
     var searchDbHelper = DBSearchHelper(ctx)
+
+    fun setOnItemClickListener(l : View.OnClickListener){
+        onItemClick = l
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchDataHistoryViewHolder {
         val mainView : View = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_search_data, parent, false)
+        mainView.setOnClickListener(onItemClick)
         return SearchDataHistoryViewHolder(mainView)
     }
 
@@ -24,11 +30,6 @@ class SearchDataHistoryAdapter (ctx: Context, val mainActivity: MainActivity, pr
     override fun onBindViewHolder(holder: SearchDataHistoryViewHolder, position: Int) {
 
         holder.searchDataName.text = searchData[position]
-
-        holder.searchDataName.setOnClickListener {
-//            mainActivity.performSearch(searchData[position])
-            mainActivity.insertKeyword(searchData[position], searchDbHelper)
-        }
 
         holder.searchDataDelete.setOnClickListener {
 
