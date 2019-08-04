@@ -11,19 +11,18 @@ import com.jem.imagesearchapp.R
 
 class ImageSearchAdapter(context: Context, private var imgDataArr: ArrayList<ImageData>, var requestManager: RequestManager) : RecyclerView.Adapter<ImageSearchViewHolder>() {
 
-    val  mContext : Context = context
     private lateinit var onItemClick : View.OnClickListener
 
-    fun setOnItemClickListener1(l : View.OnClickListener){
+    fun setOnItemClickListener(l : View.OnClickListener){
         onItemClick = l
     }
 
     //내가 쓸 뷰홀더가 뭔지를 적어준다.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageSearchViewHolder {
-        val mainView1 : View = LayoutInflater.from(parent.context)
+        val mainView : View = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_image_view, parent, false)
-//        mainView1.setOnClickListener(onItemClick)
-        return ImageSearchViewHolder(mainView1)
+        mainView.setOnClickListener(onItemClick)
+        return ImageSearchViewHolder(mainView)
     }
 
     override fun getItemCount(): Int = imgDataArr.size

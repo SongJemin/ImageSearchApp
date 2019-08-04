@@ -1,17 +1,16 @@
 package com.jem.imagesearchapp.UI.Main
 
+import android.content.Intent
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.StaggeredGridLayoutManager
-import android.util.Log
+import android.view.View
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Glide.with
 import com.bumptech.glide.RequestManager
 import com.jem.imagesearchapp.Data.Get.Response.GetImageSearchResponse
 import com.jem.imagesearchapp.Data.Model.ImageData
-import com.jem.imagesearchapp.R
+import com.jem.imagesearchapp.UI.ImageDetail.ImageDetailActivity
 import com.jem.imagesearchapp.UI.Main.Adapter.ImageSearchAdapter
 import com.jem.imagesearchapp.Util.Network.ApiClient
 import com.jem.imagesearchapp.Util.Network.NetworkService
@@ -24,7 +23,18 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
+
+    // 이미지 클릭시
+    override fun onClick(v: View?) {
+        val idx : Int = main_image_list_recycler.getChildAdapterPosition(v!!)
+        var intent = Intent(this, ImageDetailActivity::class.java)
+        intent.putExtra("img_url", imgDataArr.get(idx).image_url)
+        intent.putExtra("display_sitename", imgDataArr.get(idx).display_sitename)
+        intent.putExtra("doc_url", imgDataArr.get(idx).doc_url)
+        intent.putExtra("datetime", imgDataArr.get(idx).datetime)
+        startActivity(intent)
+    }
 
     val KAKAO_REST_API_KEY = "KakaoAK a8ef77758e604843a6cf06a0162a2544";
 
@@ -32,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     }
     lateinit var imgDataArr : ArrayList<ImageData>
     lateinit var requestManager : RequestManager
+    lateinit var imageSearchAdapter : ImageSearchAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,12 +69,11 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<GetImageSearchResponse>?, response: Response<GetImageSearchResponse>?) {
                 if(response!!.isSuccessful) {
                     imgDataArr = response.body()!!.documents
-                    System.out.println("배열 = " + imgDataArr)
                     main_image_list_recycler.layoutManager = GridLayoutManager(applicationContext, 3)
-                    main_image_list_recycler.adapter = ImageSearchAdapter(applicationContext, imgDataArr, requestManager)
-
+                    imageSearchAdapter = ImageSearchAdapter(applicationContext, imgDataArr, requestManager)
+                    imageSearchAdapter.setOnItemClickListener(this@MainActivity)
+                    main_image_list_recycler.adapter = imageSearchAdapter
                     main_image_list_recycler.addItemDecoration(RecyclerviewItemDeco(applicationContext));
-
                     main_image_list_recycler.setItemAnimator(null);
                 }
                 else{
