@@ -1,6 +1,5 @@
 package com.jem.imagesearchapp.UI.Main
 
-import android.accessibilityservice.AccessibilityService
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
@@ -11,7 +10,6 @@ import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -32,7 +30,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import kotlin.collections.ArrayList
-import android.view.KeyEvent.KEYCODE_BACK
 
 
 
@@ -66,7 +63,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var searchData : ArrayList<String>
     lateinit var searchDataHistoryAdapter : SearchDataHistoryAdapter
 
-    lateinit var softKeyBoard : AccessibilityService.SoftKeyboardController
+    var searchFocusFlag = false;
     var imm : InputMethodManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -126,16 +123,30 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         main_search_bar_edit.setOnFocusChangeListener { view, hasFocus ->
 
             if (hasFocus) {
-                Log.v("asdf","활성화")
                 searchDbHelper = DBSearchHelper(applicationContext)
                 searchDB = searchDbHelper.writableDatabase
 
-                Log.v(TAG, "edt_search_clickListener")
                 insertSearchHistoryData(searchDB)
-
                 searchEditTextFocusOn()
+                searchFocusFlag = true;
             }
 
+        }
+    }
+
+    override fun onBackPressed() {
+
+        // 최근 검색 창일 경우
+        if(searchFocusFlag){
+            searchFocusFlag = false;
+            main_search_bar_edit.clearFocus()
+
+            main_image_list_recycler.visibility = View.VISIBLE
+            main_search_history_recycler.visibility = View.GONE
+        }
+        // 이미지 리스트 창일 경우
+        else{
+            super.onBackPressed()
         }
     }
 
@@ -171,14 +182,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         })
     }
 
-    fun onKeyPreIme(keyCode: Int, event: KeyEvent): Boolean {
-        return if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() === KeyEvent.ACTION_UP) {
-            // Do your thing here
-            false
-        } else super.dispatchKeyEvent(event)
-    }
-
-
     fun insertSearchHistoryData(searchDB: SQLiteDatabase) {
 
         cursor = searchDB.rawQuery("SELECT * FROM SEARCH ORDER BY _id DESC;", null)
@@ -213,7 +216,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if (searchDbHelper.search(keyword)) {
             searchDbHelper.delete(keyword)
         }
-        Log.v("Asdf", "삽입")
         searchDbHelper.insert(keyword)
 
     }
@@ -222,17 +224,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         main_search_bar_edit.setText(keyword)
     }
 
-    fun searchEditTextFocusOff() {
-        main_search_bar_edit.clearFocus()
-    }
-
     fun searchEditTextFocusOn() {
 
         //recent search view
         main_search_history_recycler.visibility = View.VISIBLE
         main_image_list_recycler.visibility = View.INVISIBLE
     }
-
+/*
     fun deleteAllHistoryData(v: View){
         searchDbHelper.deleteAll()
         searchData.clear()
@@ -240,7 +238,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         main_search_history_recycler.adapter = searchDataHistoryAdapter
         main_search_history_recycler.layoutManager = LinearLayoutManager(applicationContext)
         main_search_history_recycler.isNestedScrollingEnabled = false
-    }
+    }*/
 
     // 액티비티 불러오기
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
