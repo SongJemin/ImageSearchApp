@@ -19,7 +19,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -33,7 +32,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         intent.putExtra("display_sitename", imgDataArr.get(idx).display_sitename)
         intent.putExtra("doc_url", imgDataArr.get(idx).doc_url)
         intent.putExtra("datetime", imgDataArr.get(idx).datetime)
-        startActivity(intent)
+        startActivityForResult(intent, 30)
     }
 
     val KAKAO_REST_API_KEY = "KakaoAK a8ef77758e604843a6cf06a0162a2544";
@@ -82,5 +81,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             override fun onFailure(call: Call<GetImageSearchResponse>?, t: Throwable?) {
             }
         })
+    }
+
+    // 액티비티 불러오기
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 30){
+
+        }
     }
 }

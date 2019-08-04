@@ -1,11 +1,13 @@
 package com.jem.imagesearchapp.UI.ImageDetail
 
 import android.app.Activity
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.jem.imagesearchapp.R
+import com.jem.imagesearchapp.UI.WebView.WebViewActivity
 import kotlinx.android.synthetic.main.activity_image_detail.*
 
 class ImageDetailActivity : Activity() {
@@ -28,5 +30,18 @@ class ImageDetailActivity : Activity() {
         detail_title_tv.text = display_sitename
         detail_doc_tv.text = doc_url
         detail_date_tv.text = datetime
+
+        // title 클릭 시
+        detail_title_tv.setOnClickListener {
+            var intent = Intent(applicationContext, WebViewActivity::class.java)
+            intent.putExtra("doc_url", doc_url)
+            startActivity(intent)
+        }
+        // doc_url 클릭 시
+        detail_doc_tv.setOnClickListener {
+            var intent = Intent(applicationContext, WebViewActivity::class.java)
+            intent.putExtra("doc_url", doc_url)
+            startActivity(intent)
+        }
     }
 }

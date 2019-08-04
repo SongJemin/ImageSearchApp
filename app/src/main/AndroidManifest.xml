@@ -12,8 +12,11 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
-        <activity android:name=".UI.ImageDetail.ImageDetailActivity"
-                  android:theme="@style/Theme.TransparentInfo"/>
+        <activity android:name=".UI.WebView.WebViewActivity">
+        </activity>
+        <activity
+                android:name=".UI.ImageDetail.ImageDetailActivity"
+                android:theme="@style/Theme.TransparentInfo"/>
         <activity android:name=".UI.Main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
