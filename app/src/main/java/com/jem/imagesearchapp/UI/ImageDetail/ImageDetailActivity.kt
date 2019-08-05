@@ -20,6 +20,8 @@ class ImageDetailActivity : Activity() {
         var display_sitename : String = intent.getStringExtra("display_sitename")
         var doc_url : String = intent.getStringExtra("doc_url")
         var datetime : String = intent.getStringExtra("datetime")
+        var width : Int = intent.getIntExtra("width", 0)
+        var height : Int = intent.getIntExtra("height", 0)
 
         var requestManager : RequestManager = Glide.with(this)
 
@@ -30,6 +32,8 @@ class ImageDetailActivity : Activity() {
         detail_title_tv.text = display_sitename
         detail_doc_tv.text = doc_url
         detail_date_tv.text = datetime
+        detail_size_width_tv.text = "width : " + width
+        detail_size_height_tv.text = "height : " + height
 
         // title 클릭 시
         detail_title_tv.setOnClickListener {

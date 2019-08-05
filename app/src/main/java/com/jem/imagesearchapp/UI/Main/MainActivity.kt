@@ -52,6 +52,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             intent.putExtra("display_sitename", imgDataArr.get(idx).display_sitename)
             intent.putExtra("doc_url", imgDataArr.get(idx).doc_url)
             intent.putExtra("datetime", imgDataArr.get(idx).datetime.substring(0, 10))
+            intent.putExtra("width", imgDataArr.get(idx).width)
+            intent.putExtra("height", imgDataArr.get(idx).height)
             startActivityForResult(intent, 30)
         }
     }
