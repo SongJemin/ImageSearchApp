@@ -1,7 +1,8 @@
 package com.jem.imagesearchapp.UI.Main.Adapter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import android.util.Log
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,10 @@ import com.bumptech.glide.RequestManager
 import com.jem.imagesearchapp.Data.Model.ImageData
 import com.jem.imagesearchapp.R
 
-class ImageSearchAdapter(ctx: Context, private var imgDataArr: ArrayList<ImageData>, var requestManager: RequestManager) : RecyclerView.Adapter<ImageSearchViewHolder>() {
+class ImageSearchAdapter(var requestManager: RequestManager) : RecyclerView.Adapter<ImageSearchViewHolder>() {
 
     private lateinit var onItemClick : View.OnClickListener
+    private val imgDataArr: ArrayList<ImageData> = ArrayList()
 
     fun setOnItemClickListener(l : View.OnClickListener){
         onItemClick = l
@@ -29,5 +31,12 @@ class ImageSearchAdapter(ctx: Context, private var imgDataArr: ArrayList<ImageDa
     //데이터클래스와 뷰홀더를 이어준다.
     override fun onBindViewHolder(holder: ImageSearchViewHolder, position: Int) {
         requestManager.load(imgDataArr[position].image_url).into(holder.backgroundImg)
+
+    }
+
+    fun update(imgDataArr: ArrayList<ImageData>) {
+        this.imgDataArr.clear()
+        this.imgDataArr.addAll(imgDataArr)
+        notifyDataSetChanged()
     }
 }

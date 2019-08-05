@@ -1,6 +1,7 @@
 package com.jem.imagesearchapp.Util.Network
 
 import com.jem.imagesearchapp.Data.Get.Response.GetImageSearchResponse
+import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -13,5 +14,5 @@ interface NetworkService {
     fun getImageSearch(
         @Header("Authorization") Authorization: String,
         @Query("query") query : String
-    ) : Call<GetImageSearchResponse>
+    ) : Single<GetImageSearchResponse>
 }

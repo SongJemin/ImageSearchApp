@@ -5,11 +5,11 @@ import android.content.Intent
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.graphics.Color
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -26,6 +26,9 @@ import com.jem.imagesearchapp.Util.DB.DBSearchHelper
 import com.jem.imagesearchapp.Util.Network.ApiClient
 import com.jem.imagesearchapp.Util.Network.NetworkService
 import com.jem.imagesearchapp.Util.RecyclerviewItemDeco
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -84,11 +87,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         requestManager = Glide.with(this)
         imgDataArr = ArrayList<ImageData>()
 
+        imageSearchAdapter =  ImageSearchAdapter(requestManager)
         main_tool_bar_tb.setTitle(com.jem.imagesearchapp.R.string.tb_name)
         main_tool_bar_tb.setTitleTextColor(Color.WHITE)
         setSupportActionBar(main_tool_bar_tb)
 
         imm = applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        imageRecyclerInit()
 
          main_search_btn.setOnClickListener {
 
@@ -175,52 +181,49 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    // 이미지 검색 메서드
+    fun imageRecyclerInit(){
+        main_image_list_recycler.layoutManager =
+            GridLayoutManager(applicationContext, 3)
+
+        recyclerviewItemDeco = RecyclerviewItemDeco(applicationContext)
+        if (recyclerviewItemDeco != null) {
+            main_image_list_recycler.removeItemDecoration(recyclerviewItemDeco!!)
+        }
+        main_image_list_recycler.addItemDecoration(recyclerviewItemDeco!!);
+        main_image_list_recycler.setItemAnimator(null);
+        imageSearchAdapter.setOnItemClickListener(this@MainActivity)
+
+    }
+
     fun imageSearch(inputString : String){
-        // 이미지 검색 API
-        var getImageSearchResponse = networkService.getImageSearch(KAKAO_REST_API_KEY, inputString)
-        getImageSearchResponse.enqueue(object : Callback<GetImageSearchResponse> {
-
-            override fun onResponse(call: Call<GetImageSearchResponse>?, response: Response<GetImageSearchResponse>?) {
-                if(response!!.isSuccessful) {
-                    imgDataArr = response.body()!!.documents
-
-                    if(imgDataArr.size > 0){
+        networkService.getImageSearch(KAKAO_REST_API_KEY, inputString)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                it.run{
+                    imgDataArr = it.documents
+                    if(imgDataArr.size > 0) {
                         main_no_data_rl.visibility = View.GONE
-                        main_image_list_recycler.layoutManager = GridLayoutManager(applicationContext, 3)
-                        imageSearchAdapter = ImageSearchAdapter(applicationContext, imgDataArr, requestManager)
-                        imageSearchAdapter.setOnItemClickListener(this@MainActivity)
+
                         main_image_list_recycler.adapter = imageSearchAdapter
-                        if(recyclerviewItemDeco != null){
-                            main_image_list_recycler.removeItemDecoration(recyclerviewItemDeco!!)
-                        }
-                        recyclerviewItemDeco = RecyclerviewItemDeco(applicationContext)
-                        main_image_list_recycler.addItemDecoration(recyclerviewItemDeco!!);
-                        main_image_list_recycler.setItemAnimator(null);
-
-
+                        imageSearchAdapter.update(imgDataArr)
                         imm!!.hideSoftInputFromWindow(main_search_bar_edit.windowToken, 0)
-
                         main_search_bar_edit.clearFocus()
-
                         main_no_data_rl.visibility = View.GONE
                         main_image_list_recycler.visibility = View.VISIBLE
-
-                    }else{
+                    }
+                    else{
                         main_no_data_rl.visibility = View.VISIBLE
                         main_image_list_recycler.visibility = View.GONE
                     }
                     main_search_history_rl.visibility = View.GONE
                     searchFocusFlag = false
                 }
-                else{
-                }
-            }
-            override fun onFailure(call: Call<GetImageSearchResponse>?, t: Throwable?) {
-            }
-        })
-    }
 
+            },{
+
+            })
+    }
     fun insertSearchHistoryData(searchDB: SQLiteDatabase) {
 
         cursor = searchDB.rawQuery("SELECT * FROM SEARCH ORDER BY _id DESC;", null)
@@ -241,7 +244,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         searchDataHistoryAdapter.notifyDataSetChanged()
         searchDataHistoryAdapter.setOnItemClickListener(this);
         main_search_history_recycler.adapter = searchDataHistoryAdapter
-        main_search_history_recycler.layoutManager = LinearLayoutManager(applicationContext)
+        main_search_history_recycler.layoutManager =
+            LinearLayoutManager(applicationContext)
         main_search_history_recycler.isNestedScrollingEnabled = false
     }
 
@@ -274,7 +278,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         searchData.clear()
         searchDataHistoryAdapter = SearchDataHistoryAdapter(applicationContext, this ,searchData)
         main_search_history_recycler.adapter = searchDataHistoryAdapter
-        main_search_history_recycler.layoutManager = LinearLayoutManager(applicationContext)
+        main_search_history_recycler.layoutManager =
+            LinearLayoutManager(applicationContext)
         main_search_history_recycler.isNestedScrollingEnabled = false
     }
 

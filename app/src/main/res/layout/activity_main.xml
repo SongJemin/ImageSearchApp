@@ -8,7 +8,7 @@
     android:background="#ffffff"
     tools:context=".UI.Main.MainActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/main_tool_bar_tb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -88,19 +88,19 @@
 
             </RelativeLayout>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/main_search_history_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/main_all_delete_rl"
                     >
 
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
 
         </RelativeLayout>
 
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/main_image_list_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -108,7 +108,7 @@
                 android:layout_marginHorizontal="5dp"
                 >
 
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
         <RelativeLayout
                 android:id="@+id/main_no_data_rl"
