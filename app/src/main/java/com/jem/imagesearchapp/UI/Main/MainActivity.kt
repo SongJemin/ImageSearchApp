@@ -42,6 +42,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if(searchFocusFlag){
             val idx : Int = main_search_history_recycler.getChildAdapterPosition(v!!)
             imageSearch(searchData.get(idx))
+            main_search_bar_edit.setText(searchData.get(idx))
+            insertKeyword(searchData.get(idx), searchDbHelper)
         }
         else{
             val idx : Int = main_image_list_recycler.getChildAdapterPosition(v!!)

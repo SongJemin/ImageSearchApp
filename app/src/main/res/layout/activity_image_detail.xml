@@ -7,6 +7,15 @@
         android:layout_height="match_parent"
         tools:context=".UI.ImageDetail.ImageDetailActivity">
 
+    <RelativeLayout
+            android:id="@+id/detail_top_rl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/detail_main_img"
+            >
+
+    </RelativeLayout>
+
     <ImageView
             android:id="@+id/detail_main_img"
             android:layout_width="match_parent"
@@ -60,8 +69,6 @@
                     />
 
         </LinearLayout>
-
-
 
     </RelativeLayout>
 

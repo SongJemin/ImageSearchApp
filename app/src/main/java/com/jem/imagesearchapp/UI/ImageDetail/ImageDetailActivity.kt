@@ -43,5 +43,12 @@ class ImageDetailActivity : Activity() {
             intent.putExtra("doc_url", doc_url)
             startActivity(intent)
         }
+
+        // 이미지 위에 투명 배경 클릭 시
+        detail_top_rl.setOnClickListener {
+            var intent = Intent()
+            setResult(30, intent)
+            finish()
+        }
     }
 }
