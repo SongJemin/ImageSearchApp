@@ -103,10 +103,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         main_content_rl.setOnClickListener {
             main_image_list_recycler.visibility = View.VISIBLE
-            main_search_history_recycler.visibility = View.GONE
+            main_search_history_rl.visibility = View.GONE
             main_search_bar_edit.clearFocus()
             searchFocusFlag = false
             imm!!.hideSoftInputFromWindow(main_search_bar_edit.windowToken, 0)
+        }
+
+        main_all_delete_tv.setOnClickListener {
+            deleteAllHistoryData()
         }
 
         main_search_bar_edit.setOnEditorActionListener({ textView, actionId, keyEvent ->
@@ -152,7 +156,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             main_search_bar_edit.clearFocus()
 
             main_image_list_recycler.visibility = View.VISIBLE
-            main_search_history_recycler.visibility = View.GONE
+            main_search_history_rl.visibility = View.GONE
         }
         // 이미지 리스트 창일 경우
         else{
@@ -204,7 +208,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         main_no_data_rl.visibility = View.VISIBLE
                         main_image_list_recycler.visibility = View.GONE
                     }
-                    main_search_history_recycler.visibility = View.GONE
+                    main_search_history_rl.visibility = View.GONE
                     searchFocusFlag = false
                 }
                 else{
@@ -259,18 +263,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     fun searchEditTextFocusOn() {
 
         //recent search view
-        main_search_history_recycler.visibility = View.VISIBLE
+        main_search_history_rl.visibility = View.VISIBLE
         main_image_list_recycler.visibility = View.INVISIBLE
     }
-/*
-    fun deleteAllHistoryData(v: View){
+
+    fun deleteAllHistoryData(){
         searchDbHelper.deleteAll()
         searchData.clear()
         searchDataHistoryAdapter = SearchDataHistoryAdapter(applicationContext, this ,searchData)
         main_search_history_recycler.adapter = searchDataHistoryAdapter
         main_search_history_recycler.layoutManager = LinearLayoutManager(applicationContext)
         main_search_history_recycler.isNestedScrollingEnabled = false
-    }*/
+    }
 
     // 액티비티 불러오기
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -60,15 +60,45 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/main_edit_bottom_view"
             >
-
-        <android.support.v7.widget.RecyclerView
-                android:id="@+id/main_search_history_recycler"
+        <RelativeLayout
+                android:id="@+id/main_search_history_rl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#000000"
                 android:visibility="gone"
                 >
+            <RelativeLayout
+                    android:id="@+id/main_all_delete_rl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp">
 
-        </android.support.v7.widget.RecyclerView>
+                <TextView
+                        android:id="@+id/main_all_delete_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:text="전체 삭제"
+                        android:textColor="#ffffff"
+                        android:textStyle="bold"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center_vertical"
+                        />
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/main_search_history_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/main_all_delete_rl"
+                    >
+
+            </android.support.v7.widget.RecyclerView>
+
+        </RelativeLayout>
+
 
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/main_image_list_recycler"
@@ -84,7 +114,6 @@
                 android:id="@+id/main_no_data_rl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
 
             <TextView
                     android:layout_width="wrap_content"
