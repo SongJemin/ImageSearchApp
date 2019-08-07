@@ -45,6 +45,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
     var date = SimpleDateFormat("yyyyMMdd");
     var count = 1
     var pageNum = 0
+    var checkFlag : Boolean = false
 
     var inputData : String = ""
 
@@ -128,11 +129,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
 
     fun initDataBinding() {
         viewModel!!.imageSearchLiveData.observe(this, Observer {
-            pageNum = it.meta.pageable_count
-            main_page_all_num_tv.text = " / " + pageNum.toString()
-            imageSearchAdapter!!.update(it.documents)
-//            imageSearchAdapter.notifyDataSetChanged()
-
+            if(it.documents.size == 0){
+               main_no_data_rl.visibility = View.VISIBLE
+                main_search_history_rl.visibility = View.GONE
+                main_page_num_rl.visibility = View.GONE
+                main_image_list_recycler.visibility = View.GONE
+            }
+            else{
+                if(count == 1){
+                    pageNum = (it.meta.pageable_count / 80) + 1
+                }
+                main_page_all_num_tv.text = " / " + pageNum.toString()
+                imageSearchAdapter!!.update(it.documents)
+            }
         })
     }
 
@@ -184,6 +193,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
     }
 
     fun insertData(inputData : String){
+        checkFlag = true
         count = 1
         main_page_num_tv.text = count.toString()
 
@@ -197,7 +207,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
         viewModel!!.imageSearch(inputData, count)
         val searchData = SearchData(inputData, date.format(today))
         main_search_bar_edit.setText(inputData)
-        searchViewModel.insert(searchData)
+        if(!inputData.equals("")){
+            searchViewModel.insert(searchData)
+        }else{
+            main_no_data_rl.visibility = View.VISIBLE
+            main_search_history_rl.visibility = View.GONE
+            main_page_num_rl.visibility = View.GONE
+            main_image_list_recycler.visibility = View.GONE
+        }
         searchFocusFlag = false
     }
 

@@ -22,7 +22,7 @@ class MainViewModel(val networkService: NetworkService) : BaseViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 it.run{
-                    if (documents.size > 0) {
+                    if (documents.size >= 0) {
                         _imageSearchResponseLiveData.postValue(this)
                     }
                 }

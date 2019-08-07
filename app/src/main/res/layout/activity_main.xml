@@ -138,15 +138,29 @@
                     android:layout_height="match_parent">
 
                 <ImageView
+                        android:id="@+id/main_no_data_iv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="검색 결과가 없습니다!!"
                         android:textSize="15sp"
                         android:textColor="#484848"
                         android:textStyle="bold"
-                        android:src="@drawable/default_main"
+                        android:src="@drawable/no_data_img"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
+                        />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="검색 결과가 없습니다"
+                        android:textSize="15sp"
+                        android:textColor="#484848"
+                        android:textStyle="bold"
+                        android:layout_below="@+id/main_no_data_iv"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="10dp"
                         />
 
 
