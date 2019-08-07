@@ -1,8 +1,8 @@
-package com.jem.imagesearchapp.Util
+package com.jem.image2searchapp.util
 
 import android.content.Context
 import android.graphics.Rect
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.util.TypedValue
 import android.view.View
 

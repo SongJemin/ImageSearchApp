@@ -1,6 +1,6 @@
-package com.jem.imagesearchapp.UI.WebView
+package com.jem.imagesearchapp.ui.webview
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.webkit.WebViewClient

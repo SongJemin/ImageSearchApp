@@ -1,144 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff"
-    tools:context=".UI.Main.MainActivity">
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/main_tool_bar_tb"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
-
+    <data>
+        <import type="android.view.View" />
+        <variable
+                name="MainViewModel"
+                type="com.jem.imagesearchapp.viewmodel.MainViewModel" />
+    </data>
     <RelativeLayout
-        android:id="@+id/main_serach_bar_ll"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:layout_below="@+id/main_tool_bar_tb"
-    >
-        <EditText
-            android:id="@+id/main_search_bar_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="10dp"
-            android:paddingRight="30dp"
-            android:hint="이미지 키워드를 입력해주세요."
-            android:background="@color/transparent"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            />
+            android:background="#ffffff"
+            tools:context=".ui.main.MainActivity">
 
-        <Button
-            android:id="@+id/main_search_btn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/search_icon"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-        />
-
-    </RelativeLayout>
-    <View
-        android:id="@+id/main_edit_bottom_view"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="#000000"
-        android:layout_below="@+id/main_serach_bar_ll"
-        />
-
-    <RelativeLayout
-            android:id="@+id/main_content_rl"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/main_edit_bottom_view"
-            >
-        <RelativeLayout
-                android:id="@+id/main_search_history_rl"
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/main_tool_bar_tb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:background="?attr/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme" />
+
+        <RelativeLayout
+                android:id="@+id/main_serach_bar_ll"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:layout_below="@+id/main_tool_bar_tb"
+                >
+            <EditText
+                    android:id="@+id/main_search_bar_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="30dp"
+                    android:hint="이미지 키워드를 입력해주세요."
+                    android:background="@color/transparent"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    />
+
+            <Button
+                    android:id="@+id/main_search_btn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/search_icon"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    />
+
+        </RelativeLayout>
+        <View
+                android:id="@+id/main_edit_bottom_view"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
                 android:background="#000000"
-                android:visibility="gone"
+                android:layout_below="@+id/main_serach_bar_ll"
+                />
+
+        <RelativeLayout
+                android:id="@+id/main_content_rl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/main_edit_bottom_view"
+                android:layout_marginBottom="40dp"
                 >
             <RelativeLayout
-                    android:id="@+id/main_all_delete_rl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp">
+                    android:id="@+id/main_search_history_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#000000"
+                    android:visibility="gone"
+                    >
+                <RelativeLayout
+                        android:id="@+id/main_all_delete_rl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp">
+
+                    <TextView
+                            android:id="@+id/main_all_delete_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:text="전체 삭제"
+                            android:textColor="#ffffff"
+                            android:textStyle="bold"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="20dp"
+                            android:gravity="center_vertical"
+                            />
+
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/main_search_history_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/main_all_delete_rl"
+                        android:visibility="visible"
+                        >
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </RelativeLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/main_image_list_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginHorizontal="5dp"
+
+                    >
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <RelativeLayout
+                    android:id="@+id/main_no_data_rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                 <TextView
-                        android:id="@+id/main_all_delete_tv"
                         android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:text="전체 삭제"
-                        android:textColor="#ffffff"
+                        android:layout_height="wrap_content"
+                        android:text="검색 결과가 없습니다!!"
+                        android:textSize="15sp"
+                        android:textColor="#484848"
                         android:textStyle="bold"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="20dp"
-                        android:gravity="center_vertical"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="217.3dp"
+                        />
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="상단의 검색바를 이용해서 키워드로 이미지를 검색해주세요!"
+                        android:textSize="13sp"
+                        android:textColor="#a2a2a2"
+                        android:textStyle="bold"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="244.3dp"
+                        android:gravity="center"
                         />
 
             </RelativeLayout>
 
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/main_search_history_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/main_all_delete_rl"
-                    >
-
-            </android.support.v7.widget.RecyclerView>
-
         </RelativeLayout>
 
-
-        <android.support.v7.widget.RecyclerView
-                android:id="@+id/main_image_list_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginVertical="5dp"
-                android:layout_marginHorizontal="5dp"
-                >
-
-        </android.support.v7.widget.RecyclerView>
-
         <RelativeLayout
-                android:id="@+id/main_no_data_rl"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            <TextView
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:background="#ffffff"
+                >
+            <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="검색 결과가 없습니다!!"
-                    android:textSize="15sp"
-                    android:textColor="#484848"
-                    android:textStyle="bold"
+                    android:layout_height="40dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="217.3dp"
-                    />
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="상단의 검색바를 이용해서 키워드로 이미지를 검색해주세요!"
-                    android:textSize="13sp"
-                    android:textColor="#a2a2a2"
-                    android:textStyle="bold"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="244.3dp"
-                    android:gravity="center"
-                    />
+                    >
+                <Button
+                        android:id="@+id/main_prev_btn"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/prev_icon"
+                        android:layout_marginRight="20dp"
+                        />
+                <TextView
+                        android:id="@+id/main_page_num_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:textSize="20sp"
+                        android:layout_gravity="center_vertical"
+                        android:textStyle="bold"
+                        android:textColor="#000000"
+                        />
+                <Button
+                        android:id="@+id/main_next_btn"
+                        android:layout_width="30dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/next_icon"
+                        android:layout_marginLeft="20dp"
+                        />
+            </LinearLayout>
 
         </RelativeLayout>
 
     </RelativeLayout>
-
-</RelativeLayout>
+</layout>
