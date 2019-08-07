@@ -100,6 +100,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
                 main_search_history_rl.visibility = View.VISIBLE
                 main_no_data_rl.visibility = View.GONE
                 main_image_list_recycler.visibility = View.GONE
+                main_page_num_rl.visibility = View.GONE
                 searchFocusFlag = true;
             }
 
@@ -186,6 +187,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
         main_image_list_recycler.visibility = View.VISIBLE
         main_search_history_rl.visibility = View.GONE
         main_no_data_rl.visibility = View.GONE
+        main_page_num_rl.visibility = View.VISIBLE
         imm!!.hideSoftInputFromWindow(main_search_bar_edit.windowToken, 0)
         viewModel!!.imageSearch(inputData, count)
         val searchData = SearchData(inputData, date.format(today))
