@@ -12,11 +12,12 @@ class SearchRepository(application: Application) {
     private val contactDao: SearchDao = contactDatabase.contactDao()
     private val contacts: LiveData<List<SearchData>> = contactDao.getAll()
 
+    // 모든 데이터 가져오기
     fun getAll(): LiveData<List<SearchData>> {
         return contacts
     }
 
-
+    // 데이터 삽입
     fun insert(contact: SearchData) {
         try {
             val thread = Thread(Runnable {
@@ -25,6 +26,7 @@ class SearchRepository(application: Application) {
         } catch (e: Exception) { }
     }
 
+    // 모든 데이터 삭제
     fun deleteAll() {
         try {
             val thread = Thread(Runnable {
@@ -34,6 +36,7 @@ class SearchRepository(application: Application) {
         } catch (e: Exception) { }
     }
 
+    // 특정 데이터 삭제
     fun delete(contact: SearchData) {
         try {
             val thread = Thread(Runnable {

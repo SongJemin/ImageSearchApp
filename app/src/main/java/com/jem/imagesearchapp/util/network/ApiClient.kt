@@ -5,7 +5,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
-    // BaseURL
+    // 카카오 BaseURL
     var BASE_URL = "https://dapi.kakao.com"
     private var retrofit: Retrofit? = null
     fun getRetrofit(): Retrofit {

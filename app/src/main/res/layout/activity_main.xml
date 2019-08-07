@@ -20,7 +20,7 @@
                 android:id="@+id/main_tool_bar_tb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
+                android:background="@color/colorPrimary"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme" />
 
@@ -92,6 +92,17 @@
                         android:id="@+id/main_all_delete_rl"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:text="최근 검색어"
+                            android:textColor="#ffffff"
+                            android:textStyle="bold"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="20dp"
+                            android:gravity="center_vertical"
+                            />
 
                     <TextView
                             android:id="@+id/main_all_delete_tv"

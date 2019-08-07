@@ -19,9 +19,9 @@ class RecyclerviewItemDeco(context : Context) : RecyclerView.ItemDecoration() {
         outRect.right = splitSpace
     }
 
+    // 간격 5
     init{
         this.splitSpace = fromDpToPx(context, 5)
-
     }
 
     fun fromDpToPx(context : Context, dp : Int): Int {

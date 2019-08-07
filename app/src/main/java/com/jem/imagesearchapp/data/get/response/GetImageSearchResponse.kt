@@ -5,6 +5,6 @@ import com.jem.imagesearchapp.data.model.MetaData
 
 
 data class GetImageSearchResponse (
-    var meta : MetaData,
-    var documents : ArrayList<ImageData>
+    var meta : MetaData,    // 메타 데이터
+    var documents : ArrayList<ImageData>    // 이미지 데이터
 )

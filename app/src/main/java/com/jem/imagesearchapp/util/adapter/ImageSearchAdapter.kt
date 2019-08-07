@@ -29,14 +29,18 @@ class ImageSearchAdapter(val imageClick: (ImageData) -> Unit, var requestManager
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         var backgroundImg: ImageView = itemView!!.findViewById(R.id.item_background_img)
 
+        // 바인딩
         fun bind(image: ImageData, requestManager: RequestManager) {
             requestManager.load(image.image_url).into(backgroundImg)
+
+            // 이미지 클릭 시
             itemView.setOnClickListener {
                 imageClick(image)
             }
         }
     }
 
+    // 데이터 갱신
     fun update(imgDataArr: ArrayList<ImageData>) {
         this.images.clear()
         this.images.addAll(imgDataArr)

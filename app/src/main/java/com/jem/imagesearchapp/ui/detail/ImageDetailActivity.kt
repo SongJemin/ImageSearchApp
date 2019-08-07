@@ -15,6 +15,7 @@ class ImageDetailActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_detail)
 
+        // 데이터 받아오기
         var img_url : String = intent.getStringExtra("img_url")
         var display_sitename : String = intent.getStringExtra("display_sitename")
         var doc_url : String = intent.getStringExtra("doc_url")

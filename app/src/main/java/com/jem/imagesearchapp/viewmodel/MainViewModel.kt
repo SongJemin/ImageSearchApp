@@ -16,6 +16,7 @@ class MainViewModel(val networkService: NetworkService) : BaseViewModel() {
     private val _imageSearchResponseLiveData = MutableLiveData<GetImageSearchResponse>()
     val imageSearchLiveData : LiveData<GetImageSearchResponse> = _imageSearchResponseLiveData
 
+    // 이미지 통신 subscribe
     fun imageSearch(inputString : String, count : Int){
         addDisposable(networkService.getImageSearch(KAKAO_REST_API_KEY, inputString, count.toString())
             .subscribeOn(Schedulers.io())
@@ -28,6 +29,5 @@ class MainViewModel(val networkService: NetworkService) : BaseViewModel() {
                 }
             },{}))
     }
-
 
 }
