@@ -73,11 +73,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
             intent.putExtra("datetime", imageData.datetime.substring(0, 10))
             intent.putExtra("width", imageData.width)
             intent.putExtra("height", imageData.height)
-            startActivity(intent)
-            // put extras of image info & start AddActivity
+            intent.putExtra("collection", imageData.collection)
+            startActivityForResult(intent, 30)
         }, requestManager)
         imm = applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//        imageSearchAdapter.setOnItemClickListener(this)
 
         val networkService: NetworkService = ApiClient.getRetrofit().create(NetworkService::class.java)
         viewModel = MainViewModel(networkService)
@@ -175,6 +174,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
                 main_page_num_tv.text = count.toString()
             }
         }
+        main_search_delete_btn.setOnClickListener {
+            main_search_bar_edit.setText("")
+        }
 
     }
 
@@ -222,6 +224,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
                 }
                 .setNegativeButton("아니요", null)
                 .show()
+        }
+    }
+
+    // 액티비티 불러오기
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 30){
         }
     }
 }

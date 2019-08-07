@@ -21,6 +21,7 @@ class ImageDetailActivity : Activity() {
         var datetime : String = intent.getStringExtra("datetime")
         var width : Int = intent.getIntExtra("width", 0)
         var height : Int = intent.getIntExtra("height", 0)
+        var collection : String = intent.getStringExtra("collection")
 
         var requestManager : RequestManager = Glide.with(this)
 
@@ -33,6 +34,7 @@ class ImageDetailActivity : Activity() {
         detail_date_tv.text = datetime
         detail_size_width_tv.text = "width : " + width
         detail_size_height_tv.text = "height : " + height
+        detail_collec_tv.text = collection
 
         // title 클릭 시
         detail_title_tv.setOnClickListener {
@@ -47,8 +49,8 @@ class ImageDetailActivity : Activity() {
             startActivity(intent)
         }
 
-        // 이미지 위에 투명 배경 클릭 시
-        detail_top_rl.setOnClickListener {
+        // 이전 버튼 클릭 시
+        detail_prev_btn.setOnClickListener {
             var intent = Intent()
             setResult(30, intent)
             finish()
