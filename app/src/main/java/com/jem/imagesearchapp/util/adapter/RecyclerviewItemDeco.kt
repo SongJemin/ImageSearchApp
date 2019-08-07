@@ -1,4 +1,4 @@
-package com.jem.imagesearchapp.Util
+package com.jem.image2searchapp.util
 
 import android.content.Context
 import android.graphics.Rect

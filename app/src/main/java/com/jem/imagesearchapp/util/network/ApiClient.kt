@@ -1,4 +1,4 @@
-package com.jem.imagesearchapp.Util.Network
+package com.jem.imagesearchapp.util.network
 
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

@@ -1,13 +1,12 @@
-package com.jem.imagesearchapp.UI.ImageDetail
+package com.jem.imagesearchapp.ui.detail
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.jem.imagesearchapp.R
-import com.jem.imagesearchapp.UI.WebView.WebViewActivity
+import com.jem.imagesearchapp.ui.webview.WebViewActivity
 import kotlinx.android.synthetic.main.activity_image_detail.*
 
 class ImageDetailActivity : Activity() {

@@ -1,4 +1,4 @@
-package com.jem.imagesearchapp.Data.Model
+package com.jem.imagesearchapp.data.model
 
 data class ImageData (
     var collection : String,

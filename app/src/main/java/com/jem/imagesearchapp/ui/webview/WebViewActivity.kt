@@ -1,4 +1,4 @@
-package com.jem.imagesearchapp.UI.WebView
+package com.jem.imagesearchapp.ui.webview
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
