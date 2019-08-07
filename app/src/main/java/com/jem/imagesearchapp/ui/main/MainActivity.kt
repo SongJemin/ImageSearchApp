@@ -44,6 +44,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
     var today = Date()
     var date = SimpleDateFormat("yyyyMMdd");
     var count = 1
+    var pageNum = 0
 
     var inputData : String = ""
 
@@ -127,6 +128,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
 
     fun initDataBinding() {
         viewModel!!.imageSearchLiveData.observe(this, Observer {
+            pageNum = it.meta.pageable_count
+            main_page_all_num_tv.text = " / " + pageNum.toString()
             imageSearchAdapter!!.update(it.documents)
 //            imageSearchAdapter.notifyDataSetChanged()
 
@@ -161,14 +164,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
         }
 
         main_prev_btn.setOnClickListener {
-            if(count > 0){
+            if(count > 1){
                 count--;
                 viewModel!!.imageSearch(inputData, count)
                 main_page_num_tv.text = count.toString()
             }
         }
         main_next_btn.setOnClickListener {
-            if(count <= 50){
+            if(count < pageNum){
                 count++;
                 viewModel!!.imageSearch(inputData, count)
                 main_page_num_tv.text = count.toString()
